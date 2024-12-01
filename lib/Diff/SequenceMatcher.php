@@ -76,6 +76,21 @@ class Diff_SequenceMatcher
 	);
 
 	/**
+	 * @var array|null
+	 */
+	private $matchingBlocks;
+
+	/**
+	 * @var array|null
+	 */
+	private $opCodes;
+
+	/**
+	 * @var array|null
+	 */
+	private $fullBCount;
+
+	/**
 	 * The constructor. With the sequences being passed, they'll be set for the
 	 * sequence matcher and it will perform a basic cleanup & calculate junk
 	 * elements.
@@ -84,7 +99,7 @@ class Diff_SequenceMatcher
 	 * @param string|array $b A string or array containing the lines to compare.
 	 * @param string|array $junkCallback Either an array or string that references a callback function (if there is one) to determine 'junk' characters.
 	 */
-	public function __construct($a, $b, $junkCallback=null, $options)
+	public function __construct($a, $b, $junkCallback, $options)
 	{
 		$this->a = null;
 		$this->b = null;
@@ -349,8 +364,8 @@ class Diff_SequenceMatcher
 			return $this->matchingBlocks;
 		}
 
-		$aLength = count($this->a);
-		$bLength = count($this->b);
+		$aLength = count($this->a ?? []);
+		$bLength = count($this->b ?? []);
 
 		$queue = array(
 			array(
